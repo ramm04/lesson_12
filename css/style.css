@@ -54,10 +54,15 @@ img {
 }
 
 body {
-    /* чтобы body было по середине */
-    min-width: 1200px;
+    /* min-width: 1200px; */
+    min-width: 320px;
     font-family: "OpenSans", sans-serif;
     font-weight: 400;
+}
+
+/* задаём переменную для отступов между элементами для дальнейшего применения в формуле */
+:root {
+    --gap: 30px;
 }
 
 /* glob */
@@ -84,10 +89,15 @@ body {
 
 /* Дополнительный класс для всех секций */
 .container {
-    width: 1200px;
+    max-width: 1200px;
     padding: 0 15px;
+    /* margin: 0 auto центрирует контент на больших экранах */
     margin: 0 auto;
+    /* чтобы блок занимал 100% экрана, но не больше 1200px */
+    width: 100%;
 }
+
+
 
 .section-title {
     margin: 0;
@@ -302,15 +312,43 @@ body {
     text-align: center;
 }
 
-.services-item {
+/* .services-item {
     border: 1px solid #E4E4E4;
     border-radius: 5px;
     flex-direction: column;
     align-items: center;
     padding: 60px 30px;
     width: 270px;
+    transition: all 0.3s ease-in-out;
     transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+} */
+
+/* переменная количества карточек  */
+.services-list {
+    --offsets: 3;
+/* для отступов между карточками вызываем значение gap, которое равно переменной --gap (30px)  */
+    gap: var(--gap);
+    /* для переноса карточек */
+    flex-wrap: wrap;
 }
+
+.services-item {
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 30px;
+    /* для адаптивности задаём ширину блоков (карточек) через формулу */
+    /* width: 270px; */
+    width: calc((100% - (var(--gap) * var(--offsets))) / (var(--offsets) + 1));
+    /* transition: all 0.3s ease-in-out; */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+} 
+
+/* после применения формулы значение margin не нужно */
+/* .services-item:not(:nth-child(4n)) {
+    margin-right: 30px;
+} */
 
 /* Для изменения цвета при наведении мыши. Далее используем вложенность
 для "hover" элементов карточки при помощи пробела между классами
@@ -319,11 +357,6 @@ body {
     border-color: #3172B9;
     background-color: #3172B9;
 }
-
-.services-item:not(:nth-child(4n)) {
-    margin-right: 30px;
-}
-
 
 /* В html в svg-картинках меняем значение "fill" на "none", а в css
     подставляем цвет из проэкта. Затем переходим к родительскому элементу.
@@ -345,6 +378,7 @@ body {
     font-size: 20px;
     line-height: 130%;
     color: #1C1C1C;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Меняем "hover" заголовка (при наведении мыши заголовок становится белым.
@@ -374,16 +408,15 @@ body {
 
 .articles-list {
     flex-wrap: wrap;
+    --offsets: 1;
+    gap: var(--gap);
 }
 
 .articles-item {
-    width: 570px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
+    width: calc((100% - (var(--offsets) * var(--gap))) / (var(--offsets) + 1 ));
 }
 
-.articles-item:not(:nth-child(2n)) {
-    margin-right: 30px;
-}
 
 .blog-preview {
     /* ДЛЯ ОБРЕЗАНИЯ КАРТИНОК БОРДЕРОМ */
@@ -497,16 +530,18 @@ body {
     border-bottom: 1px solid #DADADA;
 }
 
+.clients-list {
+    flex-wrap: wrap;
+    --offsets: 2;
+    gap: var(--gap);
+}
+
 .clients-item {
     flex-direction: column;
-    width: 370px;
+    width: calc((100% - (var(--gap)) * var(--offsets)) / (var(--offsets) + 1));
     padding: 50px 36px;
     padding-bottom: 30px;
     border: 1px solid #E4E4E4;
-}
-
-.clients-item:not(:nth-child(3n)) {
-    margin-right: 30px;
 }
 
 .clients-item-descr {
@@ -564,9 +599,15 @@ body {
     font-style: normal;
 }
 
+.contacts-list {
+    --offsets: 2;
+    flex-wrap: wrap;
+    gap: var(--gap);
+}
+
 .contacts-item {
     flex-direction: column;
-    width: 370px;
+    width: calc((100% - (var(--gap)) * var(--offsets)) / (var(--offsets) + 1));
     /* Для позиционирования изображений (бекграунда) */
     background-position: left top;
     background-repeat: no-repeat;
@@ -585,10 +626,6 @@ body {
 
 .contacts-item-mail {
     background-image: url(../img/mail.svg);
-}
-
-.contacts-item:not(:nth-child(3n)) {
-    margin-right: 30px;
 }
 
 .contacts-item-caption {
